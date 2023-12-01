@@ -1,0 +1,20 @@
+{
+  "name": "aoc2023",
+  "version": "1.0.0",
+  "description": "",
+  "main": "01.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/giacomocerquone/aoc2023.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/giacomocerquone/aoc2023/issues"
+  },
+  "homepage": "https://github.com/giacomocerquone/aoc2023#readme",
+  "devDependencies": {
+    "eslint": "^8.55.0"
+  }
+}
