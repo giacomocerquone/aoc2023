@@ -7,7 +7,7 @@ const availableCubes = {
   blue: 14,
 };
 
-const total = value.split("\n").reduce((acc, line) => {
+const totalPart1 = value.split("\n").reduce((acc, line) => {
   const [gameIDString, rest] = line.split(":");
 
   const gameID = parseInt(gameIDString.replace("Game ", "").trim(), 10);
@@ -30,4 +30,40 @@ const total = value.split("\n").reduce((acc, line) => {
   return acc;
 }, 0);
 
-console.log(total);
+const totalPart2 = value.split("\n").reduce((acc, line) => {
+  const [, rest] = line.split(":");
+
+  const sets = rest.split(";");
+
+  let maxCubesByColor = {
+    red: 0,
+    green: 0,
+    blue: 0,
+  };
+
+  sets.forEach((set) => {
+    const cubes = set.split(", ");
+
+    cubes.forEach((cube) => {
+      const [number, color] = cube.trim().split(" ");
+
+      if (+number > maxCubesByColor[color]) {
+        maxCubesByColor[color] = +number;
+      }
+    });
+  });
+
+  const power =
+    maxCubesByColor.red * maxCubesByColor.green * maxCubesByColor.blue;
+
+  maxCubesByColor = {
+    red: 0,
+    green: 0,
+    blue: 0,
+  };
+
+  return acc + power;
+}, 0);
+
+console.log(totalPart1);
+console.log(totalPart2);
