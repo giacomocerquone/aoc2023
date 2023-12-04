@@ -4,42 +4,38 @@ const value = fs.readFileSync("./input.txt", "utf8");
 const PART_TWO = true;
 
 const numsMap = {
-  one: 1,
-  two: 2,
-  three: 3,
-  four: 4,
-  five: 5,
-  six: 6,
-  seven: 7,
-  eight: 8,
-  nine: 9,
+  one: "one1one",
+  two: "two2two",
+  three: "three3three",
+  four: "four4four",
+  five: "five5five",
+  six: "six6six",
+  seven: "seven7seven",
+  eight: "eight8eight",
+  nine: "nine9nine",
 };
 
 const parseLine = (rawLine) => {
-  const firstReplaced = rawLine.replace(
-    /(one|two|three|four|five|six|seven|eight|nine)/,
-    (match, p1) => numsMap[p1.trim()]
-  );
-
   const occurrences = Object.keys(numsMap).map((number) => {
-    return { lastIndexOf: firstReplaced.lastIndexOf(number), number };
+    return { lastIndexOf: rawLine.lastIndexOf(number), number };
   });
   const lastOccurrence = occurrences.reduce(function (prev, current) {
     return prev.lastIndexOf > current.lastIndexOf ? prev : current;
   }, {});
 
-  if (lastOccurrence?.lastIndexOf !== -1) {
-    const lastReplaced =
-      firstReplaced.slice(0, lastOccurrence.lastIndexOf) +
+  let newLine = rawLine;
+
+  if (lastOccurrence?.lastIndexOf > -1) {
+    newLine =
+      rawLine.slice(0, lastOccurrence.lastIndexOf) +
       numsMap[lastOccurrence.number] +
-      firstReplaced.slice(
-        lastOccurrence.lastIndexOf + lastOccurrence.number.length
-      );
-
-    // console.log(firstReplaced, lastReplaced);
-
-    return lastReplaced;
+      rawLine.slice(lastOccurrence.lastIndexOf + lastOccurrence.number.length);
   }
+
+  const firstReplaced = newLine.replace(
+    /(one|two|three|four|five|six|seven|eight|nine)/,
+    (match, p1) => numsMap[p1.trim()]
+  );
 
   return firstReplaced;
 };
@@ -49,11 +45,6 @@ const total = value.split("\n").reduce((acc, rawLine) => {
   const matches = line.match(/(\d)/g);
 
   if (matches.length > 0) {
-    console.log(
-      line,
-      parseInt(`${matches[0]}${matches[matches.length - 1]}`, 10)
-    );
-
     return acc + parseInt(`${matches[0]}${matches[matches.length - 1]}`, 10);
   }
 
