@@ -86,6 +86,7 @@ const totalPart2 = inputMatrix.reduce((acc, line, lineIdx) => {
       delta += +digitsNearStar[0][0] * +digitsNearStar[1][0];
     }
 
+    // wanted to make sure there were no sneaky cases where a star would touch more than just two numbers. Luckily it wasn't the case
     if (digitsNearStar.length > 2) {
       console.log("WARNING");
     }
