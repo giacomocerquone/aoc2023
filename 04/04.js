@@ -2,8 +2,12 @@ const fs = require("fs");
 const value = fs.readFileSync("./input.txt", "utf8");
 
 const inputMatrix = value.split("\n");
+const scratchcardsInventory = inputMatrix.reduce((map, _, idx) => {
+  map[idx] = 1;
+  return map;
+}, {});
 
-const totalPart1 = inputMatrix.reduce((acc, line) => {
+const totalPart1 = inputMatrix.reduce((acc, line, idx) => {
   const [left, right] = line.split("|");
   const myNumbers = right.trim();
   const winningNumbers = left.split(":")[1].trim();
@@ -19,6 +23,13 @@ const totalPart1 = inputMatrix.reduce((acc, line) => {
       return owned;
     }, 0);
 
+  new Array(winningNumbersIOwn).fill(1).forEach((_, nextGamesId) => {
+    const clonedGameId = idx + (nextGamesId + 1);
+
+    scratchcardsInventory[clonedGameId] =
+      scratchcardsInventory[clonedGameId] + (scratchcardsInventory[idx] || 1);
+  });
+
   const delta =
     winningNumbersIOwn > 1
       ? Math.pow(2, winningNumbersIOwn - 1)
@@ -27,4 +38,9 @@ const totalPart1 = inputMatrix.reduce((acc, line) => {
   return acc + delta;
 }, 0);
 
+const totalPart2 = Object.values(scratchcardsInventory).reduce((acc, card) => {
+  return acc + card;
+}, 0);
+
 console.log(totalPart1);
+console.log(totalPart2);
