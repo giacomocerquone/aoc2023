@@ -51,10 +51,11 @@ inputMatrix.slice(1).forEach((line) => {
   }
 });
 
-// const totalPart1 = seeds.slice(1).reduce((acc, seed) => {
-//   return Math.min(moveForward(seed, 0), acc);
-// }, moveForward(seeds[0], 0));
+const totalPart1 = seeds.slice(1).reduce((acc, seed) => {
+  return Math.min(moveForward(seed, 0), acc);
+}, moveForward(seeds[0], 0));
 
+// part 2
 let minimumLocation = moveForward(seeds[0], 0);
 
 for (let i = 0; i < seeds.length; i += 2) {
@@ -63,4 +64,5 @@ for (let i = 0; i < seeds.length; i += 2) {
   }
 }
 
+console.log(totalPart1);
 console.log(minimumLocation);
