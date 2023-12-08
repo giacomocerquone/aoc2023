@@ -7,22 +7,26 @@ const times = [...inputMatrix[0].matchAll(/\b\d+\b/g)].flatMap((el) => +el);
 const distances = [...inputMatrix[1].matchAll(/\b\d+\b/g)].flatMap((el) => +el);
 
 const totalPart1 = times.reduce((acc, time, idx) => {
-  let winWays = new Array(time + 1).fill(1).reduce((acc, _, holdTime) => {
-    // console.log(
-    //   time - holdTime,
-    //   holdTime,
-    //   (time - holdTime) * holdTime,
-    //   distances[idx]
-    // );
+  let winWays = 0;
+  const maxHoldTime = {
+    holdTime: undefined,
+    totalTravel: undefined,
+  };
 
-    if ((time - holdTime) * holdTime > distances[idx]) {
-      return acc + 1;
+  for (let i = 1; i < time; i++) {
+    let holdTime = i;
+
+    const totalTravel = (time - holdTime) * holdTime;
+
+    if (totalTravel > distances[idx]) {
+      winWays += 1;
+
+      maxHoldTime.holdTime = holdTime;
+      maxHoldTime.totalTravel = totalTravel;
+    } else if (maxHoldTime.holdTime) {
+      break;
     }
-
-    return acc;
-  }, 0);
-
-  // console.log(winWays);
+  }
 
   return acc * winWays;
 }, 1);
